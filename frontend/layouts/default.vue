@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-app-bar elevation="5" class="rounded-b">
+        <v-app-bar :color="bg(user.role)" elevation="5" class="rounded-b">
             <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
             <v-toolbar-title class="font-weight-bold">NTC EVALUATION SYSTEM</v-toolbar-title>
             <v-spacer></v-spacer>
@@ -59,26 +59,70 @@ const logout = ()=>{
 const roles: Record<string,[string,string][]> = {
     'ฝ่ายบุคลากร':[
         ['หน้าหลัก','/Staff/'],
-        ['หน้าหลัก','/Staff/'],
-        ['หน้าหลัก','/Staff/'],
-        ['หน้าหลัก','/Staff/'],
-        ['หน้าหลัก','/Staff/'],
-        ['หน้าหลัก','/Staff/'],
-        ['หน้าหลัก','/Staff/'],
-        ['หน้าหลัก','/Staff/'],
-        ['หน้าหลัก','/Staff/'],
-        ['หน้าหลัก','/Staff/'],
-        ['หน้าหลัก','/Staff/'],
-        ['หน้าหลัก','/Staff/'],
-        ['หน้าหลัก','/Staff/'],
-        ['หน้าหลัก','/Staff/'],
-        ['หน้าหลัก','/Staff/'],
+        ['จัดการผู้รับการประเมินผล','/Staff/Manage_eva'],
+        ['จัดการกรรมการประเมิน','/Staff/Manage_commit'],
+        ['จัดการหัวข้อการประเมิน','/Staff/Topic'],
+        ['จัดการตัวชี้วัดการประเมิน','/Staff/Indicate'],
+        ['จัดการรอบการประเมิน','/Staff/Round'],
+        ['จัดการแบบประเมิน','/Staff/Eva'],
+        ['ผลการประเมินของผู้รับการประเมินผล','/Staff/Score_evaList'],
+        ['ผลการประเมินของกรรมการประเมิน','/Staff/Score_commitList'],
+        ['สถานะการประเมินของผู้รับการประเมิน','/Staff/Status_eva'],
+        ['สถานะการประเมินของกรรมการประเมิน','/Staff/Status_comit'],
+        ['เอกสารหรือคู่มือการประเมิน','/Staff/Document'],
+        ['รายงานชื่อผู้รับการประเมินผล','/Staff/Report'],
+    ],
+    
+    'ผู้รับการประเมินผล':[
+        ['หน้าหลัก','/Evaluatee/'],
+        ['แก้ไขข้อมูลส่วนตัว','/Evaluatee/Edit_eva'],
+        ['แบบประเมินตนเอง','/Evaluatee/Selfeva'],
+        ['ตรวจสอบผลการประเมิน','/Evaluatee/Check_score'],
+        ['รายงานคะแนนการประเมิน','/Evaluatee/Report'],
+        ['คู่มือการประเมิน','/Evaluatee/Doc'],
+    ],
+
+    'กรรมการประเมิน':[
+        ['รายชื่อผู้รับการประเมินผล','/Committee/'],
+        ['ดำเนินการประเมิน','/Committee/Show_eva'],
+        ['ตรวจสอบและยืนยัน','/Committee/Check_confirm'],
+        ['คู่มือการประเมิน','/Committee/Doc'],
     ]
 }
 
 const navitem = computed(()=> roles[user.value.role] || [])
+
+const fetch = async()=>{
+    const token = localStorage.getItem('token')
+    if(!token){
+        return navigateTo('/',{replace:true})
+    }
+    try {
+        const res = await axios.get(`${api}/profile`,{headers:{Authorization:`Bearer ${token}`}})
+        user.value = res.data
+    } catch (error) {
+        console.error('Error Get',error)
+        localStorage.removeItem('token')
+        navigateTo('/')
+    }
+}
+onMounted(fetch)
+
+const bg = (role:string)=>{
+    if(role === 'ฝ่ายบุคลากร')return '#647687'
+    if(role === 'กรรมการประเมิน')return '#007fff'
+    if(role === 'ผู้รับการประเมินผล')return '#7d0c14'
+}
 </script>
 
 <style scoped>
-
+@media print {
+    .v-app-bar,.v-btn,.no-p{
+        display: none !important;
+        margin-top: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 0 !important;
+    }
+}
 </style>

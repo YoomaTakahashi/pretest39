@@ -3,6 +3,7 @@ const db = require('../../db')
 const router = express.Router()
 const {verifyToken,requireRole} = require('../../Middleware/authmiddleware')
 const path = require('path')
+const { json } = require('stream/consumers')
 const uploadDir = path.join(__dirname,'../uploads/file_eva')
 
 router.get('/user',verifyToken,requireRole('ผู้รับการประเมินผล'),async (req,res) => {
@@ -36,14 +37,23 @@ router.post('/save',verifyToken,requireRole('ผู้รับการปร�
         const fileMap = {}
         const files = req.files || {}
         const scores = JSON.parse(req.body.scores)
-        await Promise(Object.entries(files).map(async ([key,files]) => {
+        await Promise(Object.entries(files).map(async ([key,file]) => {
             const filename = Date.now()+Math.random().toString(36).slice(2)+path.extname(file.name)
             await file.mv(path.join(uploadDir,filename))
             fileMap[key] = filename
         }))
-        const [[evaRow]] = await db.query(``)
+        const [[evaRow]] = await db.query(`select * from tb_member m,tb_eva e,tb_system s where e.id_member=? and e.id_member=m.id_member and e.id_sys=s.id_sys order by e.id_eva desc`,[id_member])
+        const id_eva = evaRow.id_eva
+        for(const item of scores){
+            const filename = fileMap[item.file_key]
+            await db.query(`update tb_evadetail set (id_eva,id_indicate,status_eva,detail_eva,score_member,file_eva) values(?,?,?,?,?,?)`[id_eva,item.id_indicate,1,item.detail_eva,item.score,filename])
+        }
+        const [[sumRow]] = await db.query(`select coalesce(sum(score_member*(select i.point_indicate from tb_indicate i where i.id_indicate=d.id_indicate)),0)as total from tb_evadetail d where d.id_eva=?`,[id_eva])
+        await db.query(`update tb_eva set status_eva=?,total_eva=? where id_eva=?`,[2,sumRow.total,id_eva])
+        res.status(201).json({message:'Post Success'})
     } catch (error) {
-        
+        console.error('ERror post',error)
+        res.status(500).json({message:'ERror post'})
     }
 })
 

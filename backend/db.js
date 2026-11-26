@@ -3,6 +3,6 @@ const pool = mysql2.createPool({
     host:'mysql',
     user:'root',
     password:'1234',
-    database:'pretest39'
+    database:'pretest38'
 })
 module.exports = pool.promise()

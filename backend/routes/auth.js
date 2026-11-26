@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 const JWT_SECRET = process.env.JWT_SECRET
 const bc = require('bcrypt')
 const db = require('../db')
-const {verifyToken} = require('../Middleware/authmiddleware')
+const {verifyToken,requireRole} = require('../Middleware/authmiddleware')
 const router = express.Router()
 
 router.post('/regis',async (req,res) => {
@@ -46,6 +46,25 @@ router.post('/login',async (req,res) => {
 })
 
 
-
+router.put('/changePw',verifyToken,requireRole('ผู้รับการประเมินผล'),async (req,res) => {
+    try {
+        const id_member = req.user.id_member
+        const {oldPw,newPw} = req.body
+        const [rows] = await db.query(`select password from tb_member where id_member=?`,[id_member])
+        const m = rows[0]
+        if(!m || !oldPw || !(await bc.compare(oldPw,m.password))){
+            return res.status(400).json({message:'รหัสผ่านไม่ถูกต้อง'})
+        }
+        if(oldPw.trim() === newPw.trim()){
+            return res.status(400).json({message:'รหัสผ่านต้องไม่ซ้ำกัน'})
+        }
+        const hash = await bc.hash(newPw,10)
+        await db.query(`update tb_member set password=?,statusPw=? where id_member=?`,[hash,'y',id_member])
+        res.status(201).json({message:'Update success'})
+    } catch (error) {
+        console.error("error update",error);
+        res.status(500).json({message:"error update"})
+    }
+})
 
 module.exports = router

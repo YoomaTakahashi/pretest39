@@ -18,11 +18,18 @@ app.use('/uploads',express.static(path.join(__dirname,'./uploads')))
 const profile = require('./routes/profile')
 app.use('/api/profile',profile)
 
+const auth = require('./routes/auth')
+app.use('/api/auth',auth)
+
 //---------------------------------------------------staff api --------------------------------------------------------------------\\
 
 //---------------------------------------------------eva api --------------------------------------------------------------------\\
 
+const edit_eva = require('./routes/Eva/edit_eva')
+app.use('/api/Eva/edit_eva',edit_eva)
 
+const selfeva = require('./routes/Eva/selfeva')
+app.use('/api/Eva/selfeva',selfeva)
 
 //---------------------------------------------------commit api --------------------------------------------------------------------\\
 

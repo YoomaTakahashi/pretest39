@@ -29,7 +29,7 @@ services:
       DB_HOST: mysql
       DB_USER: root
       DB_PASSWORD: 1234
-      DB_DATABSE: "pretest38"
+      DB_DATABSE: "pretest39"
       JWT_SECRET: "Tee&Kate"
       CHOKIDAR_USEPOLLING: true
     networks: ["app-networks"]
@@ -57,7 +57,7 @@ services:
       - mysql_data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_DATABASE: pretest38
+      MYSQL_DATABASE: pretest39
     networks: ["app-networks"]
 
 networks:

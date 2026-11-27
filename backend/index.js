@@ -55,6 +55,15 @@ app.use('/api/Commit/show',show)
 const save = require('./routes/Commit/save')
 app.use('/api/Commit/save',save)
 
+const score_member2 = require('./routes/Commit/score_member')
+app.use('/api/Commit/score_member',score_member2)
+
+const check = require('./routes/Commit/check')
+app.use('/api/Commit/check',check)
+
+const score_commit2 = require('./routes/Commit/score_commit')
+app.use('/api/Commit/score_commit',score_commit2)
+
 
 //---------------------------------------------------endline api --------------------------------------------------------------------\\
 app.use((req,res)=> res.status(404).json({message:"Route Not Found"}))

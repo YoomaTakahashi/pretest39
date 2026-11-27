@@ -31,7 +31,7 @@ ts<template>
                                     </td>
                                     <td class="text-center">
                                         <center>
-                                            <v-btn   variant="outlined"  size="small" @click="go(items.id_eva)" color="info" prepend-icon="mdi-pen">ประเมิน</v-btn>
+                                            <v-btn   variant="outlined"  size="small" @click="go(items.id_eva)" color="info" prepend-icon="mdi-pen">ตรวจสอบ</v-btn>
                                         </center>
                                     </td>
                                 </tr>

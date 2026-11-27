@@ -19,9 +19,11 @@
                         <v-col cols="12" md="3">
                             <v-select v-if="indicate.check_indicate === 'y'" :items="[1,2,3,4]" label="ใส่คะแนน 1-4" variant="outlined" v-model="indicate.score"></v-select>
                             <v-text-field v-else label="ใส่คะแนน 1-4" variant="outlined" v-model="indicate.score" @input="indicate.score > 4 ? indicate.score = 4 :null" type="number" min="1"></v-text-field>
+
                         </v-col>
                         <v-col cols="12" md="5">
                             <v-textarea label="คำอธิบายเพิ่มเติม (ถ้ามี)" v-model="indicate.detail_eva" rows="1" auto-grow variant="outlined"></v-textarea>
+                            
                         </v-col>
                         <v-col cols="12" md="4">
                             <v-file-input label="*** รองรับเฉพาะนามสกุล .PNG .JPG .PDF ***" v-model="indicate.file_eva" variant="outlined" @change="onFilechange($event,topic.id_topic,indicate.id_indicate)" accept=".png,.jpg,.pdf" prepend-icon="mdi-paperclip"></v-file-input>

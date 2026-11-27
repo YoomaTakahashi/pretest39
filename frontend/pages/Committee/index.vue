@@ -3,7 +3,7 @@ ts<template>
         <v-container>
             <v-row justify="center">
                 <v-col cols="12" md="12">
-                    <page-header title="ดำเนินการประเมิน" icon="mdi-clipboard-edit" subtitle="ดำเนินการประเมินผู้รับการประเมิน" color="#007fff"></page-header>
+                    <page-header title="รายชื่อผู้รับการประเมินผล" icon="mdi-clipboard-edit" subtitle="ดำเนินการประเมินผู้รับการประเมิน" color="#007fff"></page-header>
                     <v-card rounded="xl" elevation="5" class="mt-4">
                         <v-table class="mt-3" hover>
                             <thead>

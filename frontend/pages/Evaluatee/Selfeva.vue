@@ -3,11 +3,11 @@
         <PageHeader title="แบบประเมินตนเอง" subtitle="ใส่คะแนน 1-4 และแนบไฟล์ประเมินได้" icon="mdi-clipboard-edit" color="#7d0c14"></PageHeader>
 
         <v-form v-if="user.status_eva === 1" @submit.prevent="saveScore">
-            <v-card rounded="xl" elevation="4" class="pa-4">
+            <v-card rounded="xl" hover-elevation="4" elevation="2" class="pa-4">
                 <v-list-item :title="`${user.fname}-${user.lname}`" :subtitle="`รอบที่ ${user.round_sys } ปี ${user.year_sys}`" prepend-icon="mdi-account-circle"></v-list-item>
             </v-card>
 
-            <v-card v-for="(topic,t) in topics" :key="topic.id_topic" rounded="xl" elevation="4" class="mb-6 mt-4">
+            <v-card v-for="(topic,t) in topics" :key="topic.id_topic" hover-elevation="5" elevation="2" rounded="xl" class="mb-6 mt-4">
                 <v-card-title class="pa-4 bg-grey" >{{ Number(t)+1 }}.{{ topic.name_topic }}</v-card-title>
 
                 <v-card-text v-for="(indicate,i) in topic.indicates" :key="indicate.id_indicate">

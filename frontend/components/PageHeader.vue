@@ -1,10 +1,11 @@
 <template>
-    <v-card :color="color" rounded="xl" elevation="5" class="mb-6 pa-6">
-        <div class="d-flex align-center"></div>
-        <v-icon :icon="icon" size="40"class="me-4"></v-icon>
-        <div>
-            <div class="text-headline-small font-weight-bold">{{ title }}</div>
-            <div class="text-body-medium" v-if="subtitle">{{ subtitle }}</div>
+    <v-card :color="color" rounded="xl" class="pa-6 mb-6" elevation="5">
+        <div class="d-flex align-center">
+            <v-icon :icon="icon" size="40" class="me-4"></v-icon>
+            <div>
+                <div class="text-headline-small font-weight-bold">{{ title }}</div>
+                <div class="text-body-medium" v-if="subtitle">{{ subtitle }}</div>
+            </div>
         </div>
     </v-card>
 </template>
